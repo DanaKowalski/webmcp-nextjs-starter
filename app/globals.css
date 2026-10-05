@@ -1,0 +1,188 @@
+:root {
+  --bg: #ffffff;
+  --fg: #14181f;
+  --muted: #5c6672;
+  --line: #e2e6ea;
+  --card: #f7f9fa;
+  --accent: #0b6fa4;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f1318;
+    --fg: #e8ecf0;
+    --muted: #98a3ae;
+    --line: #262d36;
+    --card: #161c23;
+    --accent: #56b8e8;
+    color-scheme: dark;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font: 16px/1.6 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+}
+
+main { max-width: 46rem; margin: 0 auto; padding: 3rem 1.25rem 5rem; }
+
+h1 { font-size: 2rem; line-height: 1.2; margin: 0 0 .5rem; letter-spacing: -.02em; }
+h2 { font-size: 1.25rem; margin: 0 0 .75rem; letter-spacing: -.01em; }
+h3 { font-size: 1rem; margin: 0 0 .25rem; }
+p { margin: 0 0 1rem; }
+
+.lede { color: var(--muted); font-size: 1.05rem; }
+.muted { color: var(--muted); }
+.small { font-size: .875rem; }
+
+.outline {
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  background: var(--card);
+  padding: 1rem 1.15rem;
+  border-radius: .5rem;
+  margin-bottom: 2.5rem;
+}
+.outline h2 { font-size: 1rem; margin-bottom: .5rem; }
+.outline p { font-size: .9375rem; }
+.outline p:last-of-type { margin-bottom: 1rem; }
+
+.jump { display: flex; flex-wrap: wrap; gap: .5rem; }
+.jump a {
+  font-size: .8125rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--accent);
+  border: 1px solid var(--line);
+  background: var(--bg);
+  border-radius: 999px;
+  padding: .25rem .7rem;
+}
+.jump a:hover { border-color: var(--accent); }
+
+
+/* Anchored sections land below nothing, but leave a little breathing room
+   so a jump link does not butt the heading against the viewport edge. */
+[id] { scroll-margin-top: 1rem; }
+
+.card {
+  border: 1px solid var(--line);
+  background: var(--card);
+  border-radius: .75rem;
+  padding: 1.25rem;
+  margin: 2rem 0;
+}
+
+.grid { display: grid; gap: .75rem; }
+.row { display: flex; justify-content: space-between; gap: 1rem; border-bottom: 1px solid var(--line); padding-bottom: .6rem; }
+.row:last-child { border-bottom: 0; padding-bottom: 0; }
+.price { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.row p { margin: 0; }
+.card > :last-child { margin-bottom: 0; }
+.footnote { margin-top: 1rem; }
+
+/* Element rules for the page's own forms and code are scoped to `main`. The
+   WebMCP Tools panel renders outside it, and CSS Modules only scope class
+   names, so an unscoped `button` or `pre` rule here would restyle the panel. */
+main label { display: block; font-size: .8125rem; font-weight: 600; margin: .9rem 0 .3rem; }
+main input, main select, main textarea {
+  width: 100%;
+  padding: .55rem .7rem;
+  border: 1px solid var(--line);
+  border-radius: .5rem;
+  background: var(--bg);
+  color: var(--fg);
+  font: inherit;
+  font-size: .9375rem;
+}
+main input:focus-visible, main select:focus-visible, main textarea:focus-visible, main button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+main button {
+  margin-top: 1.1rem;
+  width: 100%;
+  padding: .7rem 1rem;
+  border: 0;
+  border-radius: .5rem;
+  background: var(--accent);
+  color: #fff;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+main button:disabled { opacity: .5; cursor: not-allowed; }
+
+.sent { margin-top: .9rem; font-size: .875rem; color: var(--muted); }
+
+.offscreen { position: absolute; left: -9999px; width: 1px; height: 0; overflow: hidden; }
+
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: .875em;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: .3rem;
+  padding: .1rem .3rem;
+}
+
+main pre {
+  overflow-x: auto;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: .5rem;
+  padding: .9rem 1rem;
+  font-size: .8125rem;
+  line-height: 1.55;
+}
+pre code { background: none; border: 0; padding: 0; }
+
+.codeblock { position: relative; }
+/* Clearance on the right rather than above, so a one-line snippet is not
+   mostly empty space. The block scrolls horizontally, so a long first line
+   slides under the button rather than colliding with it. */
+.codeblock pre { margin: 0; padding-right: 4.5rem; }
+
+.copy {
+  position: absolute;
+  top: .45rem;
+  right: .45rem;
+  z-index: 1;
+  width: auto;
+  margin: 0;
+  padding: .25rem .6rem;
+  font-size: .75rem;
+  font-weight: 600;
+  background: var(--bg);
+  color: var(--muted);
+  border: 1px solid var(--line);
+  border-radius: .35rem;
+}
+.copy:hover { color: var(--fg); border-color: var(--muted); }
+
+.steps { margin: 1.5rem 0 1.25rem; padding-left: 1.4rem; }
+.steps > li { margin-bottom: 1.75rem; }
+.steps > li:last-child { margin-bottom: 1rem; }
+.steps > li::marker { color: var(--accent); font-weight: 700; }
+.steps h3 { margin-bottom: .35rem; }
+.steps p { margin-bottom: .6rem; }
+
+.call { margin-bottom: 1.1rem; }
+.call:last-child { margin-bottom: 0; }
+.call p { margin: .4rem 0 0; }
+
+kbd {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: .8em;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-bottom-width: 2px;
+  border-radius: .3rem;
+  padding: .05rem .35rem;
+}

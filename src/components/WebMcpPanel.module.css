@@ -1,0 +1,344 @@
+/* The WebMCP Tools panel. Its own colors and sizes, scoped by CSS Modules,
+   so it does not pick up the page's styles or leak into them. */
+
+.panel {
+  --wm-bg: #1f2a24;
+  --wm-surface: #2a3730;
+  --wm-text: #f2f5f3;
+  --wm-muted: #b7c4bc;
+  --wm-accent: #5cc98a;
+  --wm-error: #ff8a80;
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: flex-end;
+  gap: 8px;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--wm-text);
+}
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--wm-bg);
+  color: var(--wm-text);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+}
+.panel button:focus-visible,
+.panel summary:focus-visible,
+.panel input:focus-visible,
+.panel select:focus-visible {
+  outline: 2px solid var(--wm-accent);
+  outline-offset: 2px;
+}
+.pill.running {
+  box-shadow:
+    0 0 0 3px var(--wm-accent),
+    0 4px 16px rgba(0, 0, 0, 0.25);
+}
+/* Until the panel is first opened, a pulsing ring says the pill can be
+   clicked. It stops for good once it has been, so it never nags. */
+.pill.beckon {
+  animation: beckon 1.4s ease-in-out infinite;
+}
+@keyframes beckon {
+  0%,
+  100% {
+    box-shadow:
+      0 0 0 0 rgba(92, 201, 138, 0.9),
+      0 4px 16px rgba(0, 0, 0, 0.25);
+  }
+  50% {
+    box-shadow:
+      0 0 0 6px rgba(92, 201, 138, 0.35),
+      0 4px 16px rgba(0, 0, 0, 0.25);
+  }
+}
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+.dot.on {
+  background: var(--wm-accent);
+}
+.dot.off {
+  background: #9aa39e;
+}
+.count {
+  min-width: 22px;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: var(--wm-surface);
+  font-size: 11px;
+  text-align: center;
+}
+.body:not([hidden]) {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 0 16px;
+  width: min(760px, calc(100vw - 32px));
+  height: min(75vh, 680px);
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: var(--wm-bg);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+.status {
+  grid-column: 1 / -1;
+  margin: 0 0 4px;
+  color: var(--wm-muted);
+  font-size: 12px;
+}
+.col {
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-right: 4px;
+}
+.col > .logHeader,
+.col > .heading {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--wm-bg);
+}
+.heading {
+  margin: 12px 0 8px;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--wm-muted);
+}
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.tool {
+  margin-bottom: 4px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: var(--wm-surface);
+  transition: border-color 0.2s;
+}
+.tool.running {
+  border-color: var(--wm-accent);
+}
+.tool summary {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 7px 12px;
+  cursor: pointer;
+  list-style: none;
+}
+.tool summary::-webkit-details-marker {
+  display: none;
+}
+.tool summary::before {
+  content: "\25B8";
+  color: var(--wm-muted);
+  transition: transform 0.15s;
+}
+.tool details[open] > summary::before {
+  transform: rotate(90deg);
+}
+.toolName {
+  font-family: ui-monospace, Consolas, monospace;
+  font-weight: 600;
+}
+.toolTitle {
+  overflow: hidden;
+  color: var(--wm-muted);
+  font-size: 11px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.toolDesc {
+  margin: 0 12px 8px;
+  color: var(--wm-muted);
+  font-size: 12px;
+}
+.tryForm {
+  padding: 0 12px 12px;
+  display: grid;
+  gap: 8px;
+  margin-top: 8px;
+}
+.field {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  color: var(--wm-muted);
+  font-size: 11px;
+}
+.fieldLabel {
+  display: block;
+}
+.fieldCheck {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.hint {
+  color: var(--wm-muted);
+  font-size: 11px;
+}
+.fieldCheck input {
+  width: auto;
+  margin: 0;
+}
+.field select,
+.field input:not([type="checkbox"]) {
+  width: 100%;
+  height: auto;
+  padding: 6px 8px;
+  border: 1px solid #4a5a51;
+  border-radius: 6px;
+  background: var(--wm-bg);
+  color: var(--wm-text);
+  font: inherit;
+}
+.run {
+  justify-self: start;
+  padding: 6px 14px;
+  border: 0;
+  border-radius: 6px;
+  background: var(--wm-accent);
+  color: #10251a;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+.logHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+.link {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--wm-muted);
+  font: inherit;
+  font-size: 11px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.empty {
+  color: var(--wm-muted);
+  font-style: italic;
+}
+.entry {
+  margin-bottom: 4px;
+  border-radius: 8px;
+  background: var(--wm-surface);
+}
+.entryHead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px;
+  cursor: pointer;
+  list-style: none;
+}
+.entryHead::-webkit-details-marker {
+  display: none;
+}
+.entryStatus {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--wm-muted);
+}
+.entry.running .entryStatus {
+  background: var(--wm-accent);
+  animation: pulse 1s infinite;
+}
+.entry.done .entryStatus {
+  background: var(--wm-accent);
+}
+.entry.error .entryStatus {
+  background: var(--wm-error);
+}
+@keyframes pulse {
+  50% {
+    opacity: 0.3;
+  }
+}
+.entryTool {
+  font-family: ui-monospace, Consolas, monospace;
+  font-weight: 600;
+}
+.entryBody {
+  padding: 0 12px 10px;
+}
+.entryHead time {
+  margin-left: auto;
+  color: var(--wm-muted);
+  font-size: 11px;
+}
+.source {
+  padding: 0 6px;
+  border-radius: 4px;
+  background: var(--wm-bg);
+  color: var(--wm-muted);
+  font-size: 10px;
+}
+.label {
+  margin-top: 6px;
+  color: var(--wm-muted);
+  font-size: 11px;
+}
+.entry pre {
+  max-height: 160px;
+  margin: 2px 0 0;
+  padding: 6px 8px;
+  overflow: auto;
+  border-radius: 4px;
+  background: var(--wm-bg);
+  color: var(--wm-text);
+  font-size: 11px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.entry.error pre[data-result] {
+  color: var(--wm-error);
+}
+@media (max-width: 640px) {
+  .body:not([hidden]) {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr) minmax(0, 1fr);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tool,
+  .tool summary::before {
+    transition: none;
+  }
+  .entry.running .entryStatus {
+    animation: none;
+  }
+  .pill.beckon {
+    animation: none;
+    box-shadow:
+      0 0 0 3px var(--wm-accent),
+      0 4px 16px rgba(0, 0, 0, 0.25);
+  }
+}
