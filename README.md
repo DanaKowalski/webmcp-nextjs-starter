@@ -92,3 +92,5 @@ MIT
 - Passing a field that isn't in the schema makes `executeTool` reject the whole call ("Invalid value ... for parameter").
 - Brave 154 still needs the JSON-string argument format.
 - Not tested: whether a real agent chooses to fill such a field, or Chrome itself.
+
+**Stopping the server leaves node running (Dana's Windows machine).** Stopping a background `npx ... next start` kills npx but not the node child. The server keeps the port and serves the build it loaded at start, so a later rebuild isn't what it shows. Seen twice on 4 Oct 2026 (port 3123). After stopping one, and before restarting after a rebuild: `netstat -ano | grep ":<port> " | grep LISTENING`, confirm the PID is node.exe with `tasklist //FI "PID eq <pid>"`, then `taskkill //PID <pid> //F`.
