@@ -83,3 +83,12 @@ npm run build
 ## License
 
 MIT
+
+## Known trap
+
+**Hidden form fields reach agents.** Tested 5 Oct 2026 in Brave 154 (Chromium 154), with a `toolname` + `toolautosubmit` form on localhost. Chrome's declarative API docs and the WebMCP explainer say nothing about hidden or honeypot fields (both read 5 Oct 2026).
+- In the tool's schema, with the label text as the description, and filled when the tool ran: off-screen, off-screen + aria-hidden + tabindex -1, display:none, visibility:hidden, the `hidden` attribute, zero-size/opacity 0, and an input outside the form linked with `form="id"`.
+- Left out: `type=hidden`, an input with no `name`, an input outside the form with no `form=` link.
+- Passing a field that isn't in the schema makes `executeTool` reject the whole call ("Invalid value ... for parameter").
+- Brave 154 still needs the JSON-string argument format.
+- Not tested: whether a real agent chooses to fill such a field, or Chrome itself.
